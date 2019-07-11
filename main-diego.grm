@@ -1,0 +1,243 @@
+"Start Symbol" = <Start>
+
+! -------------------------------------------------
+! Character Sets
+! -------------------------------------------------
+
+{WS}           = {Whitespace} - {CR} - {LF}
+{ID Head}      = {Letter} + [_]
+{ID Tail}      = {Alphanumeric} + [_]
+{String Chars} = {Printable} + {HT} - ["]
+
+! -------------------------------------------------
+! Terminals
+! -------------------------------------------------
+
+Identifier    = {ID Head}{ID Tail}*
+DecLiteral       = [0123456789]{Digit}*
+FloatLiteral     = {Digit}*'.'{Digit}+
+StringLiteral = '"' {String Chars}* '"'
+BoolLiteral = 'true' | 'false'
+
+! -------------------------------------------------
+! Rules
+! -------------------------------------------------
+
+<Start>   ::= <Program>
+
+<Program> ::= <Const> <Classes> <Main>
+
+<Type> ::= 'int'
+        | 'float'
+        | 'string'
+        | 'bool'
+        | Identifier
+
+
+! -------------------------------------------------
+! Vector Access
+! -------------------------------------------------
+
+<GeneralIdentifier> ::= <OptVector> <ComposedIdentifier>
+
+<OptVector> ::= Identifier <VectorIndex>
+
+<ComposedIdentifier> ::= '.' <GeneralIdentifier>
+                      |
+
+<VectorIndex>  ::= '[' <Expression> ']' <VectorIndex>
+                |
+
+
+<GeneralIdentifierList> ::= <GeneralIdentifier> <OptionalExtraIds>
+                         |
+
+<OptionalExtraIds> ::= ',' <GeneralIdentifierList>
+             | <GeneralIdentifier>
+             |
+
+! -------------------------------------------------
+! Vector Declaration
+! -------------------------------------------------
+
+<VectorDecl>  ::= <Expression>
+                | <VectorBody>
+
+<VectorBody> ::= '[' <VectorValueList> ']'
+
+<VectorValueList> ::=  <VectorDecl> <OptionalValue>
+
+<OptionalValue> ::= ',' <VectorValueList>
+                 | <VectorDecl>
+                 |
+
+! -------------------------------------------------
+! Variable Declarations
+! -------------------------------------------------
+<Variables> ::= 'variables''{' <VariablesBody> '}'
+             |
+
+<VariablesBody> ::=  <Type> <VarDeclList> ';' <VariablesBody>
+            |
+
+<VarDeclList> ::= <VarDecl>  <OptionalDecls>
+
+<OptionalDecls>  ::= ',' <VarDeclList>
+                      |  <VarDecl>
+                      |
+
+<VarDecl> ::= <GeneralIdentifier> <VarAttribution>
+
+<VarAttribution> ::= '=' <VectorDecl>
+                  |
+
+! -------------------------------------------------
+! Const Declarations
+! -------------------------------------------------
+
+<Const> ::= 'const''{' <ConstBody> '}'
+        |
+
+<ConstBody> ::=  <Type> <ConstAssignmentList> ';' <ConstBody>
+            |
+
+<ConstAssignment> ::= <GeneralIdentifier> '=' <VectorDecl>
+
+<ConstAssignmentList> ::= <ConstAssignment>  <OptionalAssignments>
+
+<OptionalAssignments>  ::= ',' <ConstAssignmentList>
+                      |  <ConstAssignment>
+                      |
+
+! -------------------------------------------------
+! Expressions
+! -------------------------------------------------
+
+
+<Expression>  ::= <Add Exp> '>'  <Expression>
+               |  <Add Exp> '<'  <Expression>
+               |  <Add Exp> '<=' <Expression>
+               |  <Add Exp> '>=' <Expression>
+               |  <Add Exp> '==' <Expression>    !Equal
+               |  <Add Exp> '!=' <Expression>    !Not equal
+               |  <Add Exp> '&&' <Expression>
+               |  <Add Exp> '||' <Expression>
+               |  <Add Exp> '!'  <Expression>
+               |  <Add Exp>
+
+<Add Exp>     ::= <Mult Exp> '+' <Add Exp>
+               |  <Mult Exp> '-' <Add Exp>
+               |  <Mult Exp>
+
+<Mult Exp>    ::= <Negate Exp> '*' <Mult Exp>
+               |  <Negate Exp> '/' <Mult Exp>
+               |  <Negate Exp>
+
+<Negate Exp>  ::= '-' <Value>
+               |  <Value>
+
+!Add more values to the rule below - as needed
+
+<BaseValue> ::= <Number>
+             | StringLiteral
+             | BoolLiteral
+
+<Value>      ::= <BaseValue>
+                |  '(' <Expression> ')'
+                | <MethodCall>
+
+
+<Number>     ::= <Increment> <NumberLiteral>
+               | <NumberLiteral> <Increment>
+               | <NumberLiteral>
+
+<NumberLiteral> ::= DecLiteral
+                 | FloatLiteral
+                 | <GeneralIdentifier>
+
+<Increment>  ::= '++'
+               | '--'
+
+
+! -------------------------------------------------
+! Function and Method Calls
+! -------------------------------------------------
+
+<ArgList>  ::= <BaseValue> <OptionalExtraArgs>
+            |
+
+<OptionalExtraArgs> ::= ',' <ArgList>
+             | <BaseValue>
+             |
+
+<FunctionParams>  ::= '(' <ArgList> ')'
+
+<MethodCall>  ::= <GeneralIdentifier> <FunctionParams>
+
+
+<Write>  ::= 'write' <FunctionParams>
+<Read>  ::= 'read' '(' <GeneralIdentifierList> ')'
+
+! -------------------------------------------------
+! Control Structures
+! -------------------------------------------------
+
+<IfStatement> ::= 'if''('<Expression>')''{'<Statements>'}'<ElseStatement>
+
+<ElseStatement> ::= 'else''{'<Statements>'}'
+                 |
+
+<While>  ::= 'while' '(' <Expression> ')' '{' <Statements> '}'
+
+! -------------------------------------------------
+! Statements and Blocks
+! -------------------------------------------------
+
+<Statements>  ::= <Statement><Statements>
+               |
+
+<Statement>  ::= <IfStatement>
+              | <While>
+              | <Expression> ';'
+              | <Assignment> ';'
+              | <Write> ';'
+              | <Read> ';'
+
+
+<Assignment>  ::= <GeneralIdentifier> '=' <Expression>
+<Return> ::= 'return' <Expression>
+! -------------------------------------------------
+! Methods
+! -------------------------------------------------
+
+<Function>  ::= <Type> Identifier '('<Params> ')' <FunctionBody>
+
+<Params> ::= <Type> <OptVector> <OptParams>
+          |
+
+<OptParams> ::= ',' <Params>
+             |
+
+<FunctionBody> ::= '{'<Variables> <Statements> <Return> ';' '}'
+
+<Method> ::= 'method' <Function>
+
+! -------------------------------------------------
+! Class
+! -------------------------------------------------
+
+<Classes> ::= <Class> <Classes>
+           |
+
+<Class> ::= 'class' Identifier <Extends> '{' <Variables> <Methods> '}'
+
+<Methods> ::= <Method> <Methods>
+              |
+
+<Extends> ::= 'extends' Identifier
+           |
+! -------------------------------------------------
+! Main
+! -------------------------------------------------
+
+<Main> ::= 'main'  '{' <Variables> <Statements> '}'
