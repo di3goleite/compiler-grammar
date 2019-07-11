@@ -39,10 +39,8 @@ Gramática fatorada à esquerda, sem recursão à esquerda, respeitando a preced
 
 ## Project Members and their Roles
 ```
-vou fazer o seguinte então, para essa etapa do PBL:
-* Camille e Reinildo
+* Camille (Gerente)
 * Carlos e Daniel
-* Diego
-* Ricardo
-* Gabriel
+* Diego e Reinildo
+* Ricardo e Gabriel
 ```
