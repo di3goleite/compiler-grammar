@@ -38,9 +38,9 @@ Gramática fatorada à esquerda, sem recursão à esquerda, respeitando a preced
 ```
 
 ## Project Members and their Roles
-```
-* Camille (Gerente)
-* Carlos e Daniel
-* Diego e Gabriel
-* Ricardo e Reinildo
-```
+
+* Camille - Gerente
+* Carlos e Daniel - [metodos](/grammars/methods), [programa, principal](/grammars/program)
+* Diego e Gabriel - [comandos](/grammars/commands) (se, entao, senao, enquanto, escreva, leita)
+* Ricardo e Reinildo - [constantes](/grammars/constants) e [variaveis](/grammars/variables)
+
