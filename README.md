@@ -41,6 +41,6 @@ Gramática fatorada à esquerda, sem recursão à esquerda, respeitando a preced
 ```
 * Camille (Gerente)
 * Carlos e Daniel
-* Diego e Reinildo
-* Ricardo e Gabriel
+* Diego e Gabriel
+* Ricardo e Reinildo
 ```
