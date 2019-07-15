@@ -21,7 +21,7 @@ IDENT = {Letter}{AlphaNumeric}*
                            |'>=' <ExpressaoRelacional>
                            |'=' <ExpressaoRelacional>
                            
-<Termo> ::= <Fator> <Termo>
-            |
-<Fator> ::= NUM
+
+            
+<Termo> ::= NUM
            |IDENT
