@@ -14,7 +14,7 @@ operador = '==' | '!=' | '>' | '<' | '>=' | '<='
             | <TIPO>numero operador <TIPO>identificador
             | <TIPO>numero operador <TIPO>numero
             | '!' identificador
-<CORPO> ::= '{' <VARIAVEIS> <DECLARACOES> '}'
+<CORPO> ::= <VARIAVEIS> <DECLARACOES>
 <VARIAVEIS> ::= numero
 <DECLARACOES> ::= identificador
 <TIPO> ::= 'inteiro' | 'real' | 'boleano' | 'verdadeiro' | 'falso'
