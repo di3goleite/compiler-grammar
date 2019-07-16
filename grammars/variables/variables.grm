@@ -8,31 +8,23 @@ Numero = {Digit}+('.'{Digit}+)?
        
 CadeiaCaracteres = '"' ({String Ch})* '"'
               
+<DeclaracaoVariaveis> ::= 'variaveis' '{' <ListaVariaveis> '}'
 
+<ListaVariaveis> ::= <DefinicaoVariavel> <ListaVariaveis>  | <FechamentoListaVariaveis>
 
-<DeclaracaoVariaveis> ::= 'variaveis' '{'	<ListaVariaveis> '}'
-
-<ListaVariaveis> ::= <DefinicaoVariavel> | <FechamentoListaVariaveis>
-
-<FechamentoListaVariaveis> ::= <ListaVariaveis> |	<>	  
-			  
+<FechamentoListaVariaveis> ::= <>    
+              
 <DefinicaoVariavel> ::= <Type> Identificador <AtribuicaoVariavelMatrizVetor> 
                        
-<AtribuicaoVariavelMatrizVetor> ::= '=' <Valor> ';'| ';'| <DefinicaoMatrizVetor>
+<AtribuicaoVariavelMatrizVetor> ::= '=' <Valor> ';'| ';' | <DefinicaoVariavel> | <DefinicaoMatrizVetor> <DefinicaoVariavel>
                    
-<DefinicaoMatrizVetor> ::= '[' Numero ']' <DimensaoMatrizVetor>
-             
-<DimensaoMatrizVetor> ::= '[' Numero']' <FechamentoDimensaoMatrizVetor>|  <FechamentoDimensaoMatrizVetor>
-             
-<FechamentoDimensaoMatrizVetor> ::= <DimensaoMatrizVetor> | <AtribuicaoMatrizVetor>
+<DefinicaoMatrizVetor> ::= '[' Numero ']' <DefinicaoMatrizVetor> |  <AtribuicaoMatrizVetor>
 
 <AtribuicaoMatrizVetor> ::= '=' <AtribuicaoVetor>
 
-<AtribuicaoVetor> ::= '{' valor <ListaValoresVetor> '}' ';'
+<AtribuicaoVetor> ::= '{' <Valor> <ListaValoresVetor> '}' ';'
               
-<ListaValoresVetor> ::= ',' valor | ';' valor | <FechamentoValoresVetor>
-
-<FechamentoValoresVetor> ::= <listaValoresVetor>| <>
+<ListaValoresVetor> ::= ',' <Valor> <ListaValoresVetor> | ';' <Valor> <ListaValoresVetor>| <ListaVariaveis>
 
 <Type> ::= inteiro
          | real
@@ -41,32 +33,3 @@ CadeiaCaracteres = '"' ({String Ch})* '"'
 
 
 <Valor> ::= Numero | 'verdadeiro' | 'falso' | CadeiaCaracteres | ''
-         
-
-!<DeclaracaoVariaveis> ::= 'variaveis' '{' <ListaVariaveis> '}'
-                       
-!<ListaVariaveis> ::= <Variavel> ';' <ListaVariaveis2>
-                   
-!<ListaVariaveis2> ::= <ListaVariaveis> | <>
-             
-!<Variavel> ::= <Type> Identificador <Atribuicao> <ListaAtribuicao>
-             
-!<ListaAtribuicao> ::= ',' <Atribuicao> | <>
-
-                            
-              
-!<Type> ::= inteiro
-!         | real
-!         | boleano
-!         | texto
-
-!<Atribuicao> ::= '=' <Valor> | <>
-
-!<Valor> ::= Numero | 'verdadeiro' | 'falso' | CadeiaCaracteres | ''
-
-
-
-
-
-
-         
