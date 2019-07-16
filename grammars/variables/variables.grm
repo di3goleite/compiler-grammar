@@ -10,13 +10,11 @@ CadeiaCaracteres = '"' ({String Ch})* '"'
               
 <DeclaracaoVariaveis> ::= 'variaveis' '{' <ListaVariaveis> '}'
 
-<ListaVariaveis> ::= <DefinicaoVariavel> <ListaVariaveis>  | <FechamentoListaVariaveis>
+<ListaVariaveis> ::= <DefinicaoVariavel> <ListaVariaveis>  | <> 
 
-<FechamentoListaVariaveis> ::= <>    
-              
 <DefinicaoVariavel> ::= <Type> Identificador <AtribuicaoVariavelMatrizVetor> 
                        
-<AtribuicaoVariavelMatrizVetor> ::= '=' <Valor> ';'| ';' | <DefinicaoVariavel> | <DefinicaoMatrizVetor> <DefinicaoVariavel>
+<AtribuicaoVariavelMatrizVetor> ::= '=' <Valor> ';'| ';' | <DefinicaoVariavel> | <DefinicaoMatrizVetor>
                    
 <DefinicaoMatrizVetor> ::= '[' Numero ']' <DefinicaoMatrizVetor> |  <AtribuicaoMatrizVetor>
 
