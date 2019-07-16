@@ -3,12 +3,12 @@
 {String Ch}      = {Printable} - ["]
                
 Identificador = {Letter}({AlphaNumeric} | [_])*
-
-Numero = {Digit}+('.'{Digit}+)?
-       
+Numero = '-'? {Number}+('.'{Number}+)?
 CadeiaCaracteres = '"' ({String Ch})* '"'
-              
 
+!-------------------------------------
+! CONSTANTES 
+!-------------------------------------
 
 <DeclaracaoConstantes> ::= 'constantes' '{' <ListaConstantes> '}'
                        
