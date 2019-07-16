@@ -1,0 +1,72 @@
+"Start Symbol" = DeclaracaoVariaveis
+                
+{String Ch}      = {Printable} - ["]
+               
+Identificador = {Letter}({AlphaNumeric} | [_])*
+
+Numero = {Digit}+('.'{Digit}+)?
+       
+CadeiaCaracteres = '"' ({String Ch})* '"'
+              
+
+
+<DeclaracaoVariaveis> ::= 'variaveis' '{'	<ListaVariaveis> '}'
+
+<ListaVariaveis> ::= <DefinicaoVariavel> | <FechamentoListaVariaveis>
+
+<FechamentoListaVariaveis> ::= <ListaVariaveis> |	<>	  
+			  
+<DefinicaoVariavel> ::= <Type> Identificador <AtribuicaoVariavelMatrizVetor> 
+                       
+<AtribuicaoVariavelMatrizVetor> ::= '=' <Valor> ';'| ';'| <DefinicaoMatrizVetor>
+                   
+<DefinicaoMatrizVetor> ::= '[' Numero ']' <DimensaoMatrizVetor>
+             
+<DimensaoMatrizVetor> ::= '[' Numero']' <FechamentoDimensaoMatrizVetor>|  <FechamentoDimensaoMatrizVetor>
+             
+<FechamentoDimensaoMatrizVetor> ::= <DimensaoMatrizVetor> | <AtribuicaoMatrizVetor>
+
+<AtribuicaoMatrizVetor> ::= '=' <AtribuicaoVetor>
+
+<AtribuicaoVetor> ::= '{' valor <ListaValoresVetor> '}' ';'
+              
+<ListaValoresVetor> ::= ',' valor | ';' valor | <FechamentoValoresVetor>
+
+<FechamentoValoresVetor> ::= <listaValoresVetor>| <>
+
+<Type> ::= inteiro
+         | real
+         | boleano
+         | texto
+
+
+<Valor> ::= Numero | 'verdadeiro' | 'falso' | CadeiaCaracteres | ''
+         
+
+!<DeclaracaoVariaveis> ::= 'variaveis' '{' <ListaVariaveis> '}'
+                       
+!<ListaVariaveis> ::= <Variavel> ';' <ListaVariaveis2>
+                   
+!<ListaVariaveis2> ::= <ListaVariaveis> | <>
+             
+!<Variavel> ::= <Type> Identificador <Atribuicao> <ListaAtribuicao>
+             
+!<ListaAtribuicao> ::= ',' <Atribuicao> | <>
+
+                            
+              
+!<Type> ::= inteiro
+!         | real
+!         | boleano
+!         | texto
+
+!<Atribuicao> ::= '=' <Valor> | <>
+
+!<Valor> ::= Numero | 'verdadeiro' | 'falso' | CadeiaCaracteres | ''
+
+
+
+
+
+
+         
