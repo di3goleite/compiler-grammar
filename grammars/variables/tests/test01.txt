@@ -1,0 +1,10 @@
+variaveis {
+	inteiro a = 1;
+	inteiro b = 12;
+	inteiro c = b;
+	inteiro d = 2 , e = 3;
+	inteiro f = 4, g;
+	real c = 1.50, d = 1;
+    	boleano e = verdadeiro, f = falso;
+    	texto g = "casa", h = "palavra";
+}
