@@ -8,7 +8,7 @@
 NUM = {Number}
 IDENT = {Letter}{AlphaNumeric}*
               
-<C> ::= '{'<Expressao Logica> '}'
+<C> ::= <Expressao Logica> 
               
 <Expressao Logica> ::= <Termo> <Expressao Logica 1>
 <Expressao Logica 1> ::= '!' <Expressao Logica>
