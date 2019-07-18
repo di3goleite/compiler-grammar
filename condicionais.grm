@@ -1,0 +1,18 @@
+! Welcome to GOLD Parser Builder 5.2
+"Start Symbol" = <CONDICIONAIS>
+
+identificador = {Letter}({Alphanumeric}| [_])*
+numero = {Number}+('.'{Digit}+)?
+operador = '==' | '!=' | '>' | '<' | '>=' | '<='         
+<CONDICIONAIS> ::= <SE> | <ENQUANTO> 
+<SE>::= 'se(' <CONDICAO> ')'<ENTAO>
+<ENTAO> ::= 'entao {' <CORPO> '}'<SENAO>
+<SENAO> ::= 'senao{'<CORPO>'}' | <> 
+<ENQUANTO> ::= 'enquanto(' <CONDICAO> '){' <CORPO> '}'     
+<CONDICAO> ::= identificador operador <SEGUNDOTERMO> | numero operador <SEGUNDOTERMO> | '!' identificador
+<SEGUNDOTERMO> ::= identificador | numero
+<CORPO> ::= '{' <VARIAVEIS> <DECLARACOES> '}'
+<VARIAVEIS> ::= numero
+<DECLARACOES> ::= identificador
+
+               
