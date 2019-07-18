@@ -11,6 +11,8 @@
 IDENTIFICADOR = {Letter}({AlphaNumeric}|[_])*
 NUMERO = '-'?{Number}+('.'{Number}+)?
 CADEIA_CARACTERES = '"'({String Ch})*'"'
+OPERADOR = '==' | '!=' | '>' | '<' | '>=' | '<='
+BOLEANO = 'verdadeiro' | 'falso'
 
 ! -------------------------------------------------
 ! PROGRAMA
@@ -31,11 +33,12 @@ CADEIA_CARACTERES = '"'({String Ch})*'"'
            | 'real'
            | 'texto'
 
-<Valor> ::= <ValorConst>'verdadeiro'
-          | 'falso'
-          | NUMERO
-          | IDENTIFICADOR
-          | CADEIA_CARACTERES
+<Valor> ::= <ValorConst>
+		  | IDENTIFICADOR
+<ValorConst> ::= 'verdadeiro'
+          	   | 'falso'
+          	   | NUMERO
+          	   | CADEIA_CARACTERES
 
 <ListaParam> ::= <TipoId> IDENTIFICADOR <ListaParam2>
                |
@@ -56,17 +59,17 @@ CADEIA_CARACTERES = '"'({String Ch})*'"'
 <Constante> ::= <TipoId> <Atribuicao> <ListaAtribuicao>             
 <ListaAtribuicao> ::= ',' <Atribuicao> 
 					|
-<Atribuicao> ::= Identificador '=' <Valor>
+<Atribuicao> ::= Identificador '=' <ValorConst>
 
 ! -------------------------------------------------
 ! PRINCIPAL
 ! -------------------------------------------------
-<DefPrincipal> ::= 'metodo' 'principal' '('  <ListaParam> ')' ':' <Tipo> '{' <Declaracao> '}'
+<DefPrincipal> ::= 'metodo' 'principal' '('  <ListaParam> ')' ':' <Tipo> '{' <Declaracao> '}'   !Falta retorno.
 
 ! -------------------------------------------------
 ! METODOS
 ! -------------------------------------------------
-<DefMetodo> ::= 'metodo' IDENTIFICADOR '(' <ListaParam> ')' ':' <Tipo> '{' <Declaracao> '}'
+<DefMetodo> ::= 'metodo' IDENTIFICADOR '(' <ListaParam> ')' ':' <Tipo> '{' <Declaracao> '}'   !Falta retorno.
 
 ! -------------------------------------------------
 ! DECLARACOES
@@ -102,6 +105,11 @@ CADEIA_CARACTERES = '"'({String Ch})*'"'
                   | ')' ';'
 
 ! -------------------------------------------------
-! CONDICIONAIS
+! EXPRESSOES
 ! -------------------------------------------------
-<Condicao> ::= 
+!<DefExpressao> ::= 
+
+<Condicao> ::= IDENTIFICADOR OPERADOR <Condicao2>   !Incompleto
+			 | NUMERO OPERADOR <Condicao2> 
+			 | '!' BOLEANO
+<Condicao2> ::= IDENTIFICADOR | NUMERO
