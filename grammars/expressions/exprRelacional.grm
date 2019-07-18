@@ -8,7 +8,7 @@
 NUM = {Number}
 IDENT = {Letter}{AlphaNumeric}*
               
-<C> ::= '{'<ExpressaoRelacional> '}'
+<C> ::= <ExpressaoRelacional> 
               
 <ExpressaoRelacional> ::= <Termo> <ExpressaoRelacional 1>
 
