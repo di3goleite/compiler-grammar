@@ -1,1 +1,1 @@
-variaveis {inteiro mat[1][2] = {10;1;1;2,3,4};inteiro a = 2; inteiro b;}
+variaveis {inteiro mat[1][2],mat1[3][2],mat3[4] = {10;1;1;2,3,4;};inteiro a,b,c,d = 2; inteiro b;}

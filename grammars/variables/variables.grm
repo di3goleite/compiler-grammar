@@ -12,18 +12,20 @@ CadeiaCaracteres = '"' ({String Ch})* '"'
 
 <ListaVariaveis> ::= <DefinicaoVariavel> <ListaVariaveis>  | <> 
 
-<DefinicaoVariavel> ::= <Type> Identificador <AtribuicaoVariavelMatrizVetor> 
+<DefinicaoVariavel> ::= <Type> Identificador <AtribuicaoVariavelMatrizVetor> | <Type> Identificador <DefinicaoMatrizVetor>  
                        
-<AtribuicaoVariavelMatrizVetor> ::= '=' <Valor> ';'| ';' | <DefinicaoVariavel> | <DefinicaoMatrizVetor>
-                   
-<DefinicaoMatrizVetor> ::= '[' Numero ']' <DefinicaoMatrizVetor> |  <AtribuicaoMatrizVetor>
+<DefinicaoMatrizVetor> ::= '[' Numero ']' <DefinicaoMatrizVetor> | '[' Numero ']' <AtribuicaoVariavelMatrizVetor>
+                        
+<AtribuicaoVariavelMatrizVetor> ::= '=' <Valor> <FechamentoAtribuicaoVariavel>
+                                    | '=' '{' <Valor> <ListaValoresVetor>  <FechamentoAtribuicaoVariavel>
+                                        | <FechamentoAtribuicaoVariavel>
+                                        
+<FechamentoAtribuicaoVariavel> ::=  | ',' Identificador <AtribuicaoVariavelMatrizVetor> 
+                                            |',' Identificador <DefinicaoMatrizVetor> <AtribuicaoVariavelMatrizVetor>
+                                                |';' <ListaVariaveis>
 
-<AtribuicaoMatrizVetor> ::= '=' <AtribuicaoVetor>
-
-<AtribuicaoVetor> ::= '{' <Valor> <ListaValoresVetor> '}' ';'
-              
-<ListaValoresVetor> ::= ',' <Valor> <ListaValoresVetor> | ';' <Valor> <ListaValoresVetor>| <ListaVariaveis>
-
+<ListaValoresVetor> ::= ',' <Valor> <ListaValoresVetor> | ';' <Valor> <ListaValoresVetor>| ';' '}'                                               
+                                            
 <Type> ::= inteiro
          | real
          | boleano
