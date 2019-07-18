@@ -1,4 +1,4 @@
-"Start Symbol" = <DeclaracaoComando>
+"Start Symbol" = <DefPrincipal>
 
 ! -------------------------------------------------
 ! CONJUNTO DE CARACTERES
@@ -37,26 +37,6 @@ CADEIA_CARACTERES = '"'({String Ch})*'"'
 <ListaArg2> ::= ',' IDENTIFICADOR <ListaArg2>
 
 ! -------------------------------------------------
-! COMANDOS
+! METODOS
 ! -------------------------------------------------
-<DeclaracaoComando> ::= <DefSe>
-           			  | <DefEnquanto>
-            		  | <DefEscreva>
-            		  | <DefLeia>
-            		  | <DefChamada>
-
-<DefSe> ::= 'se' '(' <Condicao> ')' 'entao' '{' <Declaracao> <DefSe2> '}'
-<DefSe2> ::= 'senao' '{' <Declaracao> '}'
-           |
-
-<Def Enquanto> ::= 'enquanto' '(' <Condicao> ')' '{' <Declaracao> '}'
-
-<Def Escreva> ::= 'escreva' '(' <ListaArg> ')' ';'
-
-<Def Leia> ::= 'leia' '(' <ListaArg> ')' ';'
-
-<DefChamada> ::= IDENTIFICADOR '(' <DefChamada2>
-<DefChamada2> ::= <ListaArg> ')' ';'
-                  | ')' ';'
-
-<Condicao> ::= 
+<DefPrincipal> ::= 'metodo' 'principal' '('  <ListaParam> ')' ':' <Tipo> '{' <Declaracao> '}'

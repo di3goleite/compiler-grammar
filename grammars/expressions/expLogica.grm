@@ -1,0 +1,22 @@
+! Welcome to GOLD Parser Builder 5.2
+
+!"Nome" = 'Problema 2 -> Expressão Logica'
+"Author" = 'Carlos Luiz '
+
+"Start Symbol" = <C>
+               
+NUM = {Number}
+IDENT = {Letter}{AlphaNumeric}*
+              
+<C> ::= '{'<Expressao Logica> '}'
+              
+<Expressao Logica> ::= <Termo> <Expressao Logica 1>
+<Expressao Logica 1> ::= '!' <Expressao Logica>
+                           |
+                           
+<Termo> ::= <Fator> <Termo 1>
+<Termo 1> ::= '&&' <Termo>
+              |'||' <Termo>
+            |
+<Fator> ::= NUM
+           |IDENT

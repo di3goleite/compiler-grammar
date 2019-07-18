@@ -1,32 +1,49 @@
-"Start Symbol" = DeclaracaoConstantes
-                
-{String Ch}      = {Printable} - ["]
-               
-Identificador = {Letter}({AlphaNumeric} | [_])*
-Numero = '-'? {Number}+('.'{Number}+)?
-CadeiaCaracteres = '"' ({String Ch})* '"'
+"Start Symbol" = <DefConstante>
 
-!-------------------------------------
-! CONSTANTES 
-!-------------------------------------
+! -------------------------------------------------
+! CONJUNTO DE CARACTERES
+! -------------------------------------------------
+{Caracteres} = {Printable} - ["]
 
-<DeclaracaoConstantes> ::= 'constantes' '{' <ListaConstantes> '}'
-                       
-<ListaConstantes> ::= <Constante> ';' <ListaConstantes2>
-                   
-<ListaConstantes2> ::= <ListaConstantes> | <>
-             
-<Constante> ::= <Type> <Atribuicao> <ListaAtribuicao>
-             
-<ListaAtribuicao> ::= ',' <Atribuicao> | <>
+! -------------------------------------------------
+! TERMINAIS
+! -------------------------------------------------
+IDENTIFICADOR = {Letter}({AlphaNumeric}|[_])*
+NUMERO = '-'?{Number}+('.'{Number}+)?
+CADEIA_CARACTERES = '"'({String Ch})*'"'
 
-                            
-              
-<Type> ::= inteiro 
-         | real
-         | boleano
-         | texto
+! -------------------------------------------------
+! REGRAS GERAIS
+! -------------------------------------------------
+<Tipo> ::= <TipoId>
+         | 'vazio'
+<Tipo Id>::= 'boleano'
+           | 'inteiro'
+           | 'real'
+           | 'texto'
 
+<Valor> ::= <ValorConst>'verdadeiro'
+          | 'falso'
+          | NUMERO
+          | IDENTIFICADOR
+          | CADEIA_CARACTERES
+
+<ListaParam> ::= <TipoId> IDENTIFICADOR <ListaParam2>
+               |
+<ListaParam2> ::= ',' <TipoId> IDENTIFICADOR <ListaParam2>
+                |
+
+<ListaArg> ::= IDENTIFICADOR <ListaArg2>
+<ListaArg2> ::= ',' IDENTIFICADOR <ListaArg2>
+
+! -------------------------------------------------
+! CONSTANTES
+! -------------------------------------------------
+<DefConstante> ::= 'constantes' '{' <ListaConst> '}'                       
+<ListaConst> ::= <Constante> ';' <ListaConst2>                   
+<ListaConst2> ::= <ListaConst>
+					 |             
+<Constante> ::= <TipoId> <Atribuicao> <ListaAtribuicao>             
+<ListaAtribuicao> ::= ',' <Atribuicao> 
+					|
 <Atribuicao> ::= Identificador '=' <Valor>
-
-<Valor> ::= Numero | 'verdadeiro' | 'falso' | CadeiaCaracteres

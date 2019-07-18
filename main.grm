@@ -1,0 +1,107 @@
+"Start Symbol" = <Inicio>
+
+! -------------------------------------------------
+! CONJUNTO DE CARACTERES
+! -------------------------------------------------
+{Caracteres} = {Printable} - ["]
+
+! -------------------------------------------------
+! TERMINAIS
+! -------------------------------------------------
+IDENTIFICADOR = {Letter}({AlphaNumeric}|[_])*
+NUMERO = '-'?{Number}+('.'{Number}+)?
+CADEIA_CARACTERES = '"'({String Ch})*'"'
+
+! -------------------------------------------------
+! PROGRAMA
+! -------------------------------------------------
+<Inicio> ::= 'programa' '{' <DefGlobal> '}'
+
+<DefGlobal> ::= <DefConstante> <DefPrincipal> <DefGlobal2>
+<DefGlobal2> ::= <DefMetodo> <DefGlobal2>
+                |
+
+! -------------------------------------------------
+! REGRAS GERAIS
+! -------------------------------------------------
+<Tipo> ::= <TipoId>
+         | 'vazio'
+<Tipo Id>::= 'boleano'
+           | 'inteiro'
+           | 'real'
+           | 'texto'
+
+<Valor> ::= <ValorConst>'verdadeiro'
+          | 'falso'
+          | NUMERO
+          | IDENTIFICADOR
+          | CADEIA_CARACTERES
+
+<ListaParam> ::= <TipoId> IDENTIFICADOR <ListaParam2>
+               |
+<ListaParam2> ::= ',' <TipoId> IDENTIFICADOR <ListaParam2>
+                |
+
+<ListaArg> ::= IDENTIFICADOR <ListaArg2>
+<ListaArg2> ::= ',' IDENTIFICADOR <ListaArg2>
+                      |
+
+! -------------------------------------------------
+! CONSTANTES
+! -------------------------------------------------
+<DefConstante> ::= 'constantes' '{' <ListaConst> '}'                       
+<ListaConst> ::= <Constante> ';' <ListaConst2>                   
+<ListaConst2> ::= <ListaConst>
+					 |             
+<Constante> ::= <TipoId> <Atribuicao> <ListaAtribuicao>             
+<ListaAtribuicao> ::= ',' <Atribuicao> 
+					|
+<Atribuicao> ::= Identificador '=' <Valor>
+
+! -------------------------------------------------
+! PRINCIPAL
+! -------------------------------------------------
+<DefPrincipal> ::= 'metodo' 'principal' '('  <ListaParam> ')' ':' <Tipo> '{' <Declaracao> '}'
+
+! -------------------------------------------------
+! METODOS
+! -------------------------------------------------
+<DefMetodo> ::= 'metodo' IDENTIFICADOR '(' <ListaParam> ')' ':' <Tipo> '{' <Declaracao> '}'
+
+! -------------------------------------------------
+! DECLARACOES
+! -------------------------------------------------
+<Declaracao> ::= <DefVariavel>
+               | <DefSe>
+               | <DefEnquanto>
+               | <DefEscreva>
+               | <DefLeia>
+               | <DefChamada>
+               !| <DefExpressao>
+
+! -------------------------------------------------
+! VARIAVEIS
+! -------------------------------------------------
+
+
+! -------------------------------------------------
+! COMANDOS
+! -------------------------------------------------
+<DefSe> ::= 'se' '(' <Condicao> ')' 'entao' '{' <Declaracao> <DefSe2> '}'
+<DefSe2> ::= 'senao' '{' <Declaracao> '}'
+           |
+
+<Def Enquanto> ::= 'enquanto' '(' <Condicao> ')' '{' <Declaracao> '}'
+
+<Def Escreva> ::= 'escreva' '(' <ListaArg> ')' ';'
+
+<Def Leia> ::= 'leia' '(' <ListaArg> ')' ';'
+
+<DefChamada> ::= IDENTIFICADOR '(' <DefChamada2>
+<DefChamada2> ::= <ListaArg> ')' ';'
+                  | ')' ';'
+
+! -------------------------------------------------
+! CONDICIONAIS
+! -------------------------------------------------
+<Condicao> ::= 

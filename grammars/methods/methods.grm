@@ -1,0 +1,42 @@
+"Start Symbol" = <DefMetodo>
+
+! -------------------------------------------------
+! CONJUNTO DE CARACTERES
+! -------------------------------------------------
+{Caracteres} = {Printable} - ["]
+
+! -------------------------------------------------
+! TERMINAIS
+! -------------------------------------------------
+IDENTIFICADOR = {Letter}({AlphaNumeric}|[_])*
+NUMERO = '-'?{Number}+('.'{Number}+)?
+CADEIA_CARACTERES = '"'({String Ch})*'"'
+
+! -------------------------------------------------
+! REGRAS GERAIS
+! -------------------------------------------------
+<Tipo> ::= <TipoId>
+         | 'vazio'
+<Tipo Id>::= 'boleano'
+           | 'inteiro'
+           | 'real'
+           | 'texto'
+
+<Valor> ::= <ValorConst>'verdadeiro'
+          | 'falso'
+          | NUMERO
+          | IDENTIFICADOR
+          | CADEIA_CARACTERES
+
+<ListaParam> ::= <TipoId> IDENTIFICADOR <ListaParam2>
+               |
+<ListaParam2> ::= ',' <TipoId> IDENTIFICADOR <ListaParam2>
+                |
+
+<ListaArg> ::= IDENTIFICADOR <ListaArg2>
+<ListaArg2> ::= ',' IDENTIFICADOR <ListaArg2>
+
+! -------------------------------------------------
+! METODOS
+! -------------------------------------------------
+<DefMetodo> ::= 'metodo' IDENTIFICADOR '(' <ListaParam> ')' ':' <Tipo> '{' <Declaracao> '}'
