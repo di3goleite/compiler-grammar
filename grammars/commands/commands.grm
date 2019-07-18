@@ -40,7 +40,7 @@ CADEIA_CARACTERES = '"'({String Ch})*'"'
 ! COMANDOS
 ! -------------------------------------------------
 <DeclaracaoComando> ::= <DefSe>
-           			  | <DefEnquanto>
+           	           | <DefEnquanto>
             		  | <DefEscreva>
             		  | <DefLeia>
             		  | <DefChamada>
