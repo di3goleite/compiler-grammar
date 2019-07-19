@@ -18,8 +18,11 @@ CadeiaCaracteres = '"' ({String Ch})* '"'
                         
 <AtribuicaoVariavelMatrizVetor> ::= '=' <Valor> <FechamentoAtribuicaoVariavel>
                                     | '=' '{' <Valor> <ListaValoresVetor>  <FechamentoAtribuicaoVariavel>
-                                        | <FechamentoAtribuicaoVariavel>
+                                        | '=' <Expressoes> <FechamentoAtribuicaoVariavel>
+                                            | <FechamentoAtribuicaoVariavel>
                                         
+<Expressoes> ::= 'Expressoes'
+
 <FechamentoAtribuicaoVariavel> ::=  | ',' Identificador <AtribuicaoVariavelMatrizVetor> 
                                             |',' Identificador <DefinicaoMatrizVetor> <AtribuicaoVariavelMatrizVetor>
                                                 |';' <ListaVariaveis>
