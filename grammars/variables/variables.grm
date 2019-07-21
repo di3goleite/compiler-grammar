@@ -12,20 +12,27 @@ CadeiaCaracteres = '"' ({String Ch})* '"'
 
 <ListaVariaveis> ::= <DefinicaoVariavel> <ListaVariaveis>  | <> 
 
-<DefinicaoVariavel> ::= <Type> Identificador <AtribuicaoVariavelMatrizVetor> | <Type> Identificador <DefinicaoMatrizVetor>  
+<DefinicaoVariavel> ::= <Type> Identificador <AtribuicaoDefiniciaoMatrizVetor>  
                        
-<DefinicaoMatrizVetor> ::= '[' Numero ']' <DefinicaoMatrizVetor> | '[' Numero ']' <AtribuicaoVariavelMatrizVetor>
+<AtribuicaoDefiniciaoMatrizVetor> ::= <AtribuicaoVariavelMatrizVetor> | <DefinicaoMatrizVetor> 
+
+<DefinicaoMatrizVetor> ::= '[' Numero ']' <FechamentoDefinicaoMatrizVetor>
                         
-<AtribuicaoVariavelMatrizVetor> ::= '=' <Valor> <FechamentoAtribuicaoVariavel>
-                                    | '=' '{' <Valor> <ListaValoresVetor>  <FechamentoAtribuicaoVariavel>
-                                        | '=' <Expressoes> <FechamentoAtribuicaoVariavel>
-                                            | <FechamentoAtribuicaoVariavel>
+<FechamentoDefinicaoMatrizVetor>::= <DefinicaoMatrizVetor> | <AtribuicaoVariavelMatrizVetor>
+                        
+<AtribuicaoVariavelMatrizVetor> ::= '=' <FechamentoAtribuicaoVariavelMatrizVetor> 
+                                 
+<FechamentoAtribuicaoVariavelMatrizVetor> ::= <Valor> <FechamentoAtribuicaoVariavel>
+                                                | '{' <Valor> <ListaValoresVetor>  <FechamentoAtribuicaoVariavel>
+                                                    | <Expressoes> <FechamentoAtribuicaoVariavel>
+                                                        | <FechamentoAtribuicaoVariavel>
                                         
 <Expressoes> ::= 'Expressoes'
 
-<FechamentoAtribuicaoVariavel> ::=  | ',' Identificador <AtribuicaoVariavelMatrizVetor> 
-                                            |',' Identificador <DefinicaoMatrizVetor> <AtribuicaoVariavelMatrizVetor>
-                                                |';' <ListaVariaveis>
+<FechamentoAtribuicaoVariavel> ::=  | ',' Identificador <FechamentoDeclaracao>
+                                        |';' <ListaVariaveis>
+
+<FechamentoDeclaracao> ::= <AtribuicaoVariavelMatrizVetor> | <DefinicaoMatrizVetor> <AtribuicaoVariavelMatrizVetor>
 
 <ListaValoresVetor> ::= ',' <Valor> <ListaValoresVetor> | ';' <Valor> <ListaValoresVetor>| ';' '}'                                               
                                             
