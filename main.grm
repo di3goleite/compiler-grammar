@@ -77,8 +77,8 @@ BOLEANO = 'verdadeiro' | 'falso'
 <Declaracao> ::= <DefVariavel>
                | <DefSe>
                | <DefEnquanto>
-               | <DefEscreva>
-               | <DefLeia>
+               | <DefEscreva> ';'
+               | <DefLeia> ';'
                | <DefChamada>
                !| <DefExpressao>
 
@@ -90,19 +90,12 @@ BOLEANO = 'verdadeiro' | 'falso'
 ! -------------------------------------------------
 ! COMANDOS
 ! -------------------------------------------------
-<DefSe> ::= 'se' '(' <Condicao> ')' 'entao' '{' <Declaracao> <DefSe2> '}'
-<DefSe2> ::= 'senao' '{' <Declaracao> '}'
-           |
 
-<Def Enquanto> ::= 'enquanto' '(' <Condicao> ')' '{' <Declaracao> '}'
 
-<Def Escreva> ::= 'escreva' '(' <ListaArg> ')' ';'
+! -------------------------------------------------
+! Control Structures
+! -------------------------------------------------
 
-<Def Leia> ::= 'leia' '(' <ListaArg> ')' ';'
-
-<DefChamada> ::= IDENTIFICADOR '(' <DefChamada2>
-<DefChamada2> ::= <ListaArg> ')' ';'
-                  | ')' ';'
 
 ! -------------------------------------------------
 ! EXPRESSOES

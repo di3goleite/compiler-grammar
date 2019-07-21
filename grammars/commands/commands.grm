@@ -1,62 +1,22 @@
-"Start Symbol" = <DeclaracaoComando>
-
-! -------------------------------------------------
-! CONJUNTO DE CARACTERES
-! -------------------------------------------------
-{Caracteres} = {Printable} - ["]
-
-! -------------------------------------------------
-! TERMINAIS
-! -------------------------------------------------
-IDENTIFICADOR = {Letter}({AlphaNumeric}|[_])*
-NUMERO = '-'?{Number}+('.'{Number}+)?
-CADEIA_CARACTERES = '"'({String Ch})*'"'
-
-! -------------------------------------------------
-! REGRAS GERAIS
-! -------------------------------------------------
-<Tipo> ::= <TipoId>
-         | 'vazio'
-<Tipo Id>::= 'boleano'
-           | 'inteiro'
-           | 'real'
-           | 'texto'
-
-<Valor> ::= <ValorConst>'verdadeiro'
-          | 'falso'
-          | NUMERO
-          | IDENTIFICADOR
-          | CADEIA_CARACTERES
-
-<ListaParam> ::= <TipoId> IDENTIFICADOR <ListaParam2>
-               |
-<ListaParam2> ::= ',' <TipoId> IDENTIFICADOR <ListaParam2>
-                |
-
-<ListaArg> ::= IDENTIFICADOR <ListaArg2>
-<ListaArg2> ::= ',' IDENTIFICADOR <ListaArg2>
-
 ! -------------------------------------------------
 ! COMANDOS
 ! -------------------------------------------------
-<DeclaracaoComando> ::= <DefSe>
-           	           | <DefEnquanto>
-            		  | <DefEscreva>
-            		  | <DefLeia>
-            		  | <DefChamada>
+<ComandoEscrevaParams> ::= CADEIA_CARACTERES
+                        |  <ListaParam>
 
-<DefSe> ::= 'se' '(' <Condicao> ')' 'entao' '{' <Declaracao> <DefSe2> '}'
-<DefSe2> ::= 'senao' '{' <Declaracao> '}'
+<DefEscreva>  ::= 'escreva' '(' <ComandoEscrevaParams> ')'
+<DefLeia>  ::= 'leia' '(' <ListaParam> ')'
+
+! -------------------------------------------------
+! Control Structures
+! -------------------------------------------------
+
+<Condicao> ::= <ExpressaoRelacional>
+            |  '!' <ExpressaoRelacional>
+
+<DefSe> ::= 'se' '(' <Condicao> ')' 'entao' '{' <Declaracao> '}'<DefSenao>
+
+<DefSenao> ::= 'senao' '{' <Declaracao> '}'
            |
 
-<Def Enquanto> ::= 'enquanto' '(' <Condicao> ')' '{' <Declaracao> '}'
-
-<Def Escreva> ::= 'escreva' '(' <ListaArg> ')' ';'
-
-<Def Leia> ::= 'leia' '(' <ListaArg> ')' ';'
-
-<DefChamada> ::= IDENTIFICADOR '(' <DefChamada2>
-<DefChamada2> ::= <ListaArg> ')' ';'
-                  | ')' ';'
-
-<Condicao> ::= 
+<DefEnquanto> ::= 'enquanto' '(' <Condicao> ')' '{' <Declaracao> '}'

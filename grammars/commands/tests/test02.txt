@@ -1,0 +1,3 @@
+se (!(a > b)) entao {
+  leia(a, b, c);
+}

@@ -1,0 +1,5 @@
+se (a > b) entao {
+  escreva("Funcionou!!!");
+} senao {
+  escreva("Funcionou mesmo assim!!!");
+}
