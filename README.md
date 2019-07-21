@@ -2,13 +2,6 @@
 
 Gramática fatorada à esquerda, sem recursão à esquerda, respeitando a precedência e associatividade dos operadores aritméticos, lógicos e relacionais, utilizando o software GOLD Parser Builder.
 
-## Project Members and their Roles
-
-* Camille - Gerente e [principal](/grammars/main)
-* Diego e Gabriel - [comandos](/grammars/commands) (se, entao, senao, enquanto, escreva, leia)
-* Ricardo e Reinildo - [constantes](/grammars/constants) e [variaveis](/grammars/variables)
-* Carlos e Daniel - [metodos](/grammars/methods), [programa](/grammars/program), [expressoes](/grammars/expressions)
-
 ## Project Structure
 ```
 .
@@ -46,3 +39,10 @@ Gramática fatorada à esquerda, sem recursão à esquerda, respeitando a preced
 ├── README.md
 └── main.grm
 ```
+
+## Project Members and their Roles
+
+* Camille - Gerente e [principal](/grammars/main)
+* Diego e Gabriel - [comandos](/grammars/commands) (se, entao, senao, enquanto, escreva, leia)
+* Ricardo e Reinildo - [constantes](/grammars/constants) e [variaveis](/grammars/variables)
+* Carlos e Daniel - [metodos](/grammars/methods), [programa](/grammars/program), [expressoes](/grammars/expressions)
