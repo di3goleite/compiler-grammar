@@ -2,45 +2,47 @@
 
 Gramática fatorada à esquerda, sem recursão à esquerda, respeitando a precedência e associatividade dos operadores aritméticos, lógicos e relacionais, utilizando o software GOLD Parser Builder.
 
+## Project Members and their Roles
+
+* Camille - Gerente e [principal](/grammars/main)
+* Diego e Gabriel - [comandos](/grammars/commands) (se, entao, senao, enquanto, escreva, leia)
+* Ricardo e Reinildo - [constantes](/grammars/constants) e [variaveis](/grammars/variables)
+* Carlos e Daniel - [metodos](/grammars/methods), [programa](/grammars/program), [expressoes](/grammars/expressions)
+
 ## Project Structure
 ```
 .
-├── README.md
 ├── grammars
-│   ├── commands
+│   ├── commands/
+│   │   ├── tests/test01.txt
 │   │   ├── README.md
-│   │   ├── commands.grm
-│   │   └── tests
-│   │       └── test01.txt
+│   │   └── commands.grm
 │   ├── constants
+│   │   ├── tests/test01.txt
 │   │   ├── README.md
-│   │   ├── constants.grm
-│   │   └── tests
-│   │       └── test01.txt
+│   │   └── constants.grm
+│   ├── expressions
+│   │   ├── tests/test01.txt
+│   │   ├── README.md
+│   │   └── expressions.grm
+│   ├── main
+│   │   ├── tests/test01.txt
+│   │   ├── README.md
+│   │   └── main.grm
 │   ├── methods
+│   │   ├── tests/test01.txt
 │   │   ├── README.md
-│   │   ├── methods.grm
-│   │   └── tests
-│   │       └── test01.txt
+│   │   └── methods.grm
 │   ├── program
+│   │   ├── tests/test01.txt
 │   │   ├── README.md
-│   │   ├── program.grm
-│   │   └── tests
-│   │       └── test01.txt
+│   │   └── program.grm
 │   └── variables
-│       ├── README.md
-│       ├── tests
-│       │   └── test01.txt
-│       └── variables.grm
-├── main.grm
-└── tests
-    └── test01.txt
+│       ├── tests/test01.txt
+│       ├── README.md
+│       └── variables.grm
+├── tests/
+|   └── test01.txt
+├── README.md
+└── main.grm
 ```
-
-## Project Members and their Roles
-
-* Camille - Gerente
-* Carlos e Daniel - [metodos](/grammars/methods), [programa, principal](/grammars/program)
-* Diego e Gabriel - [comandos](/grammars/commands) (se, entao, senao, enquanto, escreva, leita)
-* Ricardo e Reinildo - [constantes](/grammars/constants) e [variaveis](/grammars/variables)
-
