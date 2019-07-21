@@ -35,7 +35,7 @@ Gramática fatorada à esquerda, sem recursão à esquerda, respeitando a preced
 │       ├── README.md
 │       └── variables.grm
 ├── tests/
-|   └── test01.txt
+│   └── test01.txt
 ├── README.md
 └── main.grm
 ```
