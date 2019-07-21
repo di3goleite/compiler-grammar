@@ -8,54 +8,61 @@
 NUM = {Number}
 IDENT = {Letter}{AlphaNumeric}*
               
-<C> ::= <Expressao>
-              
-<Expressao> ::=<Termo><Expressao 1>
 
+<C> ::= <Expressao>
+
+
+             
+<Expressao> ::= '(' <Expressao> ')  
+					|	<<Expressao> <OperadorLogicoBinario> <Expressao>
+						|	<DefinicaoExpressao>
+							|	'!' <Expressao>
+								
 ! -------------------------------------------------
 ! DEFINIÇÃO GERAL DA EXPRESSÃO
 ! -------------------------------------------------
-<Expressao 1> ::=<ExpressaoRelacional 1>
-                 |<ExpressaoLogica 1>
-                 |'('<ExpressaoAritmetica 1>')'
-                 |          
-                           
+
+<DefinicaoExpressao> ::= <ExpressaoAritmetica> | <ExpressaoLogica> | <ExpressaoRelacional> 
+
+
 ! -------------------------------------------------
 ! DEFINIÇÃO GERAL DA EXPRESSÃO RELACIONAL
 ! -------------------------------------------------                    
-<ExpressaoRelacional 1> ::=<ExpressaoRelacional>
-                         
 
-<ExpressaoRelacional> ::='!'<ExpressaoRelacional>
-                        |'==' <ExpressaoRelacional>
-                        |'<' <ExpressaoRelacional>
-                        |'<=' <ExpressaoRelacional>
-                        |'>' <ExpressaoRelacional>
-                        |'>=' <ExpressaoRelacional>
-                        |'=' <ExpressaoRelacional>
+<ExpressaoRelacional> ::= <ExpressaoAritmetica> <OperadorRelacional> <Termo> 
+							| <ExpressaoAritmetica> <OperadorRelacional> <ExpressaoAritmetica>
+								|<Termo> <OperadorRelacional> <Termo>
+									|<Termo> <OperadorRelacional> <ExpressaoAritmetica>
+									
                            
 ! -------------------------------------------------
 ! DEFINIÇÃO GERAL DA EXPRESSÃO LÓGICA
 ! -------------------------------------------------                        
-<ExpressaoLogica 1> ::=<ExpressaoLogica>
-                     
-<ExpressaoLogica> ::='!'<ExpressaoLogica>
-                     |'&&'<ExpressaoLogica>
-                     |'||'<ExpressaoLogica>
+
+<ExpressaoLogica> ::= <Termo> <OperadorLogicoBinario> <Termo>	
+							
 
             
 ! -------------------------------------------------
 ! DEFINIÇÃO GERAL DA EXPRESSÃO ARITMÉTICA
 ! -------------------------------------------------
 
-<ExpressaoAritmetica 1> ::=<ExpressaoAritmetica>
-                         
+<ExpressaoAritmetica> ::= <Termo> <OperadorAritimetico> <Termo> <FechamentoExpressaoAritimetica> 
 
-<ExpressaoAritmetica> ::='+'<ExpressaoAritmetica>
-                           |'-'<ExpressaoAritmetica>
-                           |'*'<ExpressaoAritmetica>
-                           |'/'<ExpressaoAritmetica>
+<FechamentoExpressaoAritimetica> ::= <OperadorAritimetico> <DefinicaoExpressaoAritmetica> | <>
 
 
 <Termo> ::= NUM
            |IDENT
+
+<OperadorAritimetico> :== '+'|'-'|'*'|'/'
+
+<OperadorLogicoBinario> :== '&&'|'||'
+
+
+<OperadorRelacional> ::= '=='
+                        |'<' 
+                        |'<='
+                        |'>' 
+                        |'>='
+                        |'!=' 
