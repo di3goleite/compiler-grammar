@@ -4,13 +4,16 @@
 ! CONJUNTO DE CARACTERES
 ! -------------------------------------------------
 {Caracteres} = {Printable} - ["]
+{String Ch}      = {Printable} - ["]
 
 ! -------------------------------------------------
 ! TERMINAIS
 ! -------------------------------------------------
 IDENTIFICADOR = {Letter}({AlphaNumeric}|[_])*
 NUMERO = '-'?{Number}+('.'{Number}+)?
+       
 CADEIA_CARACTERES = '"'({String Ch})*'"'
+                  
 OPERADOR = '==' | '!=' | '>' | '<' | '>=' | '<='
 BOLEANO = 'verdadeiro' | 'falso'
 
@@ -34,11 +37,11 @@ BOLEANO = 'verdadeiro' | 'falso'
            | 'texto'
 
 <Valor> ::= <ValorConst>
-		  | IDENTIFICADOR
+          | IDENTIFICADOR
 <ValorConst> ::= 'verdadeiro'
-          	   | 'falso'
-          	   | NUMERO
-          	   | CADEIA_CARACTERES
+               | 'falso'
+               | NUMERO
+               | CADEIA_CARACTERES
 
 <ListaParam> ::= <TipoId> IDENTIFICADOR <ListaParam2>
                |
@@ -55,10 +58,10 @@ BOLEANO = 'verdadeiro' | 'falso'
 <DefConstante> ::= 'constantes' '{' <ListaConst> '}'                       
 <ListaConst> ::= <Constante> ';' <ListaConst2>                   
 <ListaConst2> ::= <ListaConst>
-					 |             
+                     |             
 <Constante> ::= <TipoId> <Atribuicao> <ListaAtribuicao>             
 <ListaAtribuicao> ::= ',' <Atribuicao> 
-					|
+                    |
 <Atribuicao> ::= Identificador '=' <ValorConst>
 
 ! -------------------------------------------------
@@ -110,6 +113,6 @@ BOLEANO = 'verdadeiro' | 'falso'
 !<DefExpressao> ::= 
 
 <Condicao> ::= IDENTIFICADOR OPERADOR <Condicao2>   !Incompleto
-			 | NUMERO OPERADOR <Condicao2> 
-			 | '!' BOLEANO
+             | NUMERO OPERADOR <Condicao2> 
+             | '!' BOLEANO
 <Condicao2> ::= IDENTIFICADOR | NUMERO
