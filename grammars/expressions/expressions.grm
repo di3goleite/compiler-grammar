@@ -1,0 +1,61 @@
+! Welcome to GOLD Parser Builder 5.2
+
+!"Nome" = 'Problema 2 -> Expressões'
+"Author" = 'Carlos Luiz '
+
+"Start Symbol" = <C>
+               
+NUM = {Number}
+IDENT = {Letter}{AlphaNumeric}*
+              
+<C> ::= <Expressao>
+              
+<Expressao> ::=<Termo><Expressao 1>
+
+! -------------------------------------------------
+! DEFINIÇÃO GERAL DA EXPRESSÃO
+! -------------------------------------------------
+<Expressao 1> ::=<ExpressaoRelacional 1>
+                 |<ExpressaoLogica 1>
+                 |'('<ExpressaoAritmetica 1>')'
+                 |          
+                           
+! -------------------------------------------------
+! DEFINIÇÃO GERAL DA EXPRESSÃO RELACIONAL
+! -------------------------------------------------                    
+<ExpressaoRelacional 1> ::=<ExpressaoRelacional>
+                         
+
+<ExpressaoRelacional> ::='!'<ExpressaoRelacional>
+                        |'==' <ExpressaoRelacional>
+                        |'<' <ExpressaoRelacional>
+                        |'<=' <ExpressaoRelacional>
+                        |'>' <ExpressaoRelacional>
+                        |'>=' <ExpressaoRelacional>
+                        |'=' <ExpressaoRelacional>
+                           
+! -------------------------------------------------
+! DEFINIÇÃO GERAL DA EXPRESSÃO LÓGICA
+! -------------------------------------------------                        
+<ExpressaoLogica 1> ::=<ExpressaoLogica>
+                     
+<ExpressaoLogica> ::='!'<ExpressaoLogica>
+                     |'&&'<ExpressaoLogica>
+                     |'||'<ExpressaoLogica>
+
+            
+! -------------------------------------------------
+! DEFINIÇÃO GERAL DA EXPRESSÃO ARITMÉTICA
+! -------------------------------------------------
+
+<ExpressaoAritmetica 1> ::=<ExpressaoAritmetica>
+                         
+
+<ExpressaoAritmetica> ::='+'<ExpressaoAritmetica>
+                           |'-'<ExpressaoAritmetica>
+                           |'*'<ExpressaoAritmetica>
+                           |'/'<ExpressaoAritmetica>
+
+
+<Termo> ::= NUM
+           |IDENT
