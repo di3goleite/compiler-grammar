@@ -3,16 +3,26 @@
 
 identificador = {Letter}({Alphanumeric}| [_])*
 numero = {Number}+('.'{Digit}+)?
-operador = '==' | '!=' | '>' | '<' | '>=' | '<='         
+operador = '==' | '!=' | '>' | '<' | '>=' | '<='    
+boleano = 'verdadeiro' | 'falso'
+        
+{String Chars} = {Printable} - ["]
+cadeia = '"'{String Chars}'"'
+             
 <CONDICIONAIS> ::= <SE> | <ENQUANTO> 
+                
 <SE>::= 'se(' <CONDICAO> ')'<ENTAO>
 <ENTAO> ::= 'entao {' <CORPO> '}'<SENAO>
 <SENAO> ::= 'senao{'<CORPO>'}' | <> 
 <ENQUANTO> ::= 'enquanto(' <CONDICAO> '){' <CORPO> '}'     
-<CONDICAO> ::= identificador operador <SEGUNDOTERMO> | numero operador <SEGUNDOTERMO> | '!' identificador
-<SEGUNDOTERMO> ::= identificador | numero
+            
+<CONDICAO> ::= identificador operador <SEGUNDOTERMOID> | numero operador <SEGUNDOTERMONUM> | boleano <BOLEANO> | '!' identificador | cadeia operador <SEGUNDOTERMOCAD>
+<SEGUNDOTERMOID> ::= identificador | numero | boleano | cadeia
+<SEGUNDOTERMONUM> ::= identificador | numero 
+<BOLEANO> ::= operador <SEGUNDOTERMOBOL> | <>                  
+<SEGUNDOTERMOBOL> ::= identificador | boleano
+<SEGUNDOTERMOCAD> ::= identificador | cadeia
+                                      
 <CORPO> ::= '{' <VARIAVEIS> <DECLARACOES> '}'
 <VARIAVEIS> ::= numero
 <DECLARACOES> ::= identificador
-
-               
