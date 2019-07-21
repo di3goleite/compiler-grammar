@@ -13,11 +13,11 @@ IDENT = {Letter}{AlphaNumeric}*
 
 
              
-<Expressao> ::= '(' <Expressao> ')  
-					|	<<Expressao> <OperadorLogicoBinario> <Expressao>
-						|	<DefinicaoExpressao>
-							|	'!' <Expressao>
-								
+<Expressao> ::= '(' <Expressao> ')'  
+                    |  <Expressao> <OperadorLogicoBinario> <Expressao>
+                        |   <DefinicaoExpressao>
+                            |   '!' <Expressao>    
+                                |   '!' <Termo>
 ! -------------------------------------------------
 ! DEFINIÇÃO GERAL DA EXPRESSÃO
 ! -------------------------------------------------
@@ -30,34 +30,34 @@ IDENT = {Letter}{AlphaNumeric}*
 ! -------------------------------------------------                    
 
 <ExpressaoRelacional> ::= <ExpressaoAritmetica> <OperadorRelacional> <Termo> 
-							| <ExpressaoAritmetica> <OperadorRelacional> <ExpressaoAritmetica>
-								|<Termo> <OperadorRelacional> <Termo>
-									|<Termo> <OperadorRelacional> <ExpressaoAritmetica>
-									
+                            | <ExpressaoAritmetica> <OperadorRelacional> <ExpressaoAritmetica>
+                                |<Termo> <OperadorRelacional> <Termo>
+                                    |<Termo> <OperadorRelacional> <ExpressaoAritmetica>
+                                    
                            
 ! -------------------------------------------------
 ! DEFINIÇÃO GERAL DA EXPRESSÃO LÓGICA
 ! -------------------------------------------------                        
 
-<ExpressaoLogica> ::= <Termo> <OperadorLogicoBinario> <Termo>	
-							
+<ExpressaoLogica> ::= <Termo> <OperadorLogicoBinario> <Termo>   
+                            
 
             
 ! -------------------------------------------------
 ! DEFINIÇÃO GERAL DA EXPRESSÃO ARITMÉTICA
 ! -------------------------------------------------
 
-<ExpressaoAritmetica> ::= <Termo> <OperadorAritimetico> <Termo> <FechamentoExpressaoAritimetica> 
+<ExpressaoAritmetica> ::= <Termo> <OperadorAritimetico> <Termo> <FechamentoExpressaoAritimetica> | '(' <ExpressaoAritmetica> ')' <FechamentoExpressaoAritimetica>
 
-<FechamentoExpressaoAritimetica> ::= <OperadorAritimetico> <DefinicaoExpressaoAritmetica> | <>
+<FechamentoExpressaoAritimetica> ::= <OperadorAritimetico> <Termo> <FechamentoExpressaoAritimetica> | <>
 
 
 <Termo> ::= NUM
            |IDENT
 
-<OperadorAritimetico> :== '+'|'-'|'*'|'/'
+<OperadorAritimetico> ::= '+'|'-'|'*'|'/'
 
-<OperadorLogicoBinario> :== '&&'|'||'
+<OperadorLogicoBinario> ::= '&&'|'||'
 
 
 <OperadorRelacional> ::= '=='
