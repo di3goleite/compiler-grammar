@@ -10,8 +10,7 @@
 ! -------------------------------------------------
 IDENTIFICADOR = {Letter}({AlphaNumeric}|[_])*
 NUMERO = '-'?{Number}+('.'{Number}+)?
-CADEIA_CARACTERES = '"'({String Ch})*'"'
-OPERADOR = '==' | '!=' | '>' | '<' | '>=' | '<='
+CADEIA_CARACTERES = '"'({Caracteres})*'"'
 BOLEANO = 'verdadeiro' | 'falso'
 
 ! -------------------------------------------------
@@ -29,16 +28,16 @@ BOLEANO = 'verdadeiro' | 'falso'
 <Tipo> ::= <TipoId>
          | 'vazio'
 <TipoId>::= 'boleano'
-           | 'inteiro'
-           | 'real'
-           | 'texto'
+          | 'inteiro'
+          | 'real'
+          | 'texto'
 
 <Valor> ::= <ValorConst>
-		  | IDENTIFICADOR
+          | IDENTIFICADOR
 <ValorConst> ::= 'verdadeiro'
-          	   | 'falso'
-          	   | NUMERO
-          	   | CADEIA_CARACTERES
+               | 'falso'
+               | NUMERO
+               | CADEIA_CARACTERES
 
 <ListaParam> ::= <TipoId> IDENTIFICADOR <ListaParam2>
                |
@@ -47,7 +46,7 @@ BOLEANO = 'verdadeiro' | 'falso'
 
 <ListaArg> ::= IDENTIFICADOR <ListaArg2>
 <ListaArg2> ::= ',' IDENTIFICADOR <ListaArg2>
-                      |
+              |
 
 ! -------------------------------------------------
 ! CONSTANTES
@@ -55,10 +54,10 @@ BOLEANO = 'verdadeiro' | 'falso'
 <DefConstante> ::= 'constantes' '{' <ListaConst> '}'                       
 <ListaConst> ::= <Constante> ';' <ListaConst2>                   
 <ListaConst2> ::= <ListaConst>
-					 |             
+                |             
 <Constante> ::= <TipoId> <Atribuicao> <ListaAtribuicao>             
 <ListaAtribuicao> ::= ',' <Atribuicao> 
-					|
+                    |
 <Atribuicao> ::= Identificador '=' <ValorConst>
 
 ! -------------------------------------------------
@@ -80,7 +79,7 @@ BOLEANO = 'verdadeiro' | 'falso'
                | <DefEscreva> ';'
                | <DefLeia> ';'
                | <DefChamada>
-               !| <DefExpressao>
+               | <DefExpressao>
 
 ! -------------------------------------------------
 ! VARIAVEIS
@@ -88,29 +87,29 @@ BOLEANO = 'verdadeiro' | 'falso'
 <DefVariavel> ::= 'variaveis' '{' <ListaVar> '}'
 
 <ListaVar> ::= <DeclaracaoVar> <ListaVar>
-			 |
+             |
 
 <DeclaracaoVar> ::= <TipoId> Identificador <DeclaracaoAtribuicaoMatriz>  
                        
 <DeclaracaoAtribuicaoMatriz> ::= <DefinicaoMatriz>
-							   | <AtribuicaoMatriz>
+                               | <AtribuicaoMatriz>
 
 <DefinicaoMatriz> ::= '[' NUMERO ']' <DeclaracaoAtribuicaoMatriz>
                         
 <AtribuicaoMatriz> ::= '=' <AtribuicaoMatriz2>                                 
 <AtribuicaoMatriz2> ::= <Valor> <AtribuicaoMatriz3>
                       | '{' <Valor> <ListaValores> <AtribuicaoMatriz3>
-                      | <Expressoes> <AtribuicaoMatriz3>
+                      | <DefExpressao> <AtribuicaoMatriz3>
                       | <AtribuicaoMatriz3>
-<AtribuicaoMatriz3> ::= ',' Identificador <FechamentoDeclaracao>
+<AtribuicaoMatriz3> ::= ',' IDENTIFICADOR <FechamentoDeclaracao>
                       |';' <ListaVar>
 <FechamentoDeclaracao> ::= <AtribuicaoMatriz>
-						 | <DefinicaoMatriz> <AtribuicaoMatriz>
+                         | <DefinicaoMatriz> <AtribuicaoMatriz>
 
 <ListaValores> ::= ',' <Valor> <ListaValores>
-				 | ';' <ListaValores2>
+                 | ';' <ListaValores2>
 <ListaValores2> ::= <Valor> <ListaValores>
-				  | }'
+                  | '}'
 
 ! -------------------------------------------------
 ! ESTRUTURAS DE CONTROLE
@@ -132,57 +131,67 @@ BOLEANO = 'verdadeiro' | 'falso'
 <EscrevaParam> ::= CADEIA_CARACTERES
                  |  <ListaArg>
 
-<DefLeia>  ::= 'leia' '(' <ListaArg> ')
+<DefLeia>  ::= 'leia' '(' <ListaArg> ')'
+            
+<DefChamada> ::= IDENTIFICADOR '(' <DefChamada2>
+<DefChamada2> ::= <ListaArg> ')' ';'
+                  | ')' ';'
 
 ! -------------------------------------------------
 ! EXPRESSOES
 ! -------------------------------------------------
-!<DefExpressao> ::= '(' <DefExpressao> ')'
-				  | <DefExpressao> <OpLogicoBinario> <DefExpressao>
-				  |  <TipoExpressao>
-				  | '!' IDENTIFICADOR
+<DefExpressao> ::= '(' <DefExpressao> ')'
+                 |  <TipoExpressao>
+                 | '!' IDENTIFICADOR
 
 <TipoExpressao> ::= <ExpressaoAritmetica>
-				  | <ExpressaoRelacional>
-				  | '!' <ExpressaoRelacional>
-				  | <ExpressaoLogica>
-				  | '!' <ExpressaoLogica>
+                  | <ExpressaoRelacional>
+                  | '!' <ExpressaoRelacional>
+                  | <ExpressaoLogica>
+                  | '!' <ExpressaoLogica>
 
 ! EXPRESSOES ARITMETICAS
 ! -------------------------------------------------
 <ExpressaoAritmetica> ::= <Termo> <ExpressaoAritmetica2>
 <ExpressaoAritmetica2> ::= '+' <ExpressaoAritmetica>
-            			   | '-' <ExpressaoAritmetica>
-            			   |
+                         | '-' <ExpressaoAritmetica>
+                         |
 
 <Termo> ::= <Fator> <Termo2>
 <Termo2> ::=  '*' <Termo>
-            | '/' <Termo>
-            |
+           | '/' <Termo>
+           |
 
 <Fator> ::= NUMERO
-		  | IDENTIFICADOR
-		  | '(' <ExpressaoAritmetica> ')'
+          | IDENTIFICADOR
+          | '(' <ExpressaoAritmetica> ')'
 
 ! EXPRESSOES RELACIONAL
 ! -------------------------------------------------
 <ExpressaoRelacional> ::= <ExpressaoAritmetica> <OpRelacional> <ExpressaoAritmetica>
-						| '!' <ExpressaoAritmetica> <OpRelacional> <ExpressaoAritmetica>
+                        | '!' <ExpressaoAritmetica> <OpRelacional> <ExpressaoAritmetica>
+                        | '(' <ExpressaoRelacional> ')'
 <OpRelacional> ::= '=='
-                       | '!='
-                       | '<' 
-                       | '<='
-                       | '>' 
-                       | '>=' 
+                 | '!='
+                 | '<' 
+                 | '<='
+                 | '>' 
+                 | '>=' 
 
 ! EXPRESSOES LOGICA
 ! -------------------------------------------------
-<ExpressaoLogica> ::= <ExpressaoRelacional> <OpLogicoBinario> <ExpressaoRelacional>
-					| '!' <ExpressaoRelacional> <OpLogicoBinario> <ExpressaoRelacional>
-					| <BoleanoOuIdentificador> <OpLogicoBinario> <BoleanoOuIdentificador>
+<ExpressaoLogica> ::= <ExpressaoRelacional> <OpLogicoBinario> <ExpressaoRelacional> <ExpressaoLogica2>
+                    | '!' <ExpressaoRelacional> <OpLogicoBinario> <ExpressaoRelacional> <ExpressaoLogica2>
+                    | <BoleanoOuIdentificador> <OpLogicoBinario> <BoleanoOuIdentificador> <ExpressaoLogica2>
+                    | '(' <ExpressaoLogica> ')' <ExpressaoLogica2>
+<ExpressaoLogica2> ::= <ExpressaoLogica> <ExpressaoLogica2>
+                     | 
 <BoleanoOuIdentificador> ::= <Boleano>
-						   | '!' <Boleano>
-						   | IDENTIFICADOR
-						   | '!' IDENTIFICADOR
+                           | '!' <Boleano>
+                           | IDENTIFICADOR
+                           | '!' IDENTIFICADOR
 <OpLogicoBinario> ::= '&&'
-					| '||'
+                    | '||'
+                    
+<Boleano> ::= 'verdadeiro'
+            | 'falso'
