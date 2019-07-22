@@ -11,10 +11,14 @@
 ! -------------------------------------------------
 IDENTIFICADOR = {Letter}({AlphaNumeric}|[_])*
 NUMERO = '-'?{Number}+('.'{Number}+)?
+<<<<<<< HEAD
        
 CADEIA_CARACTERES = '"'({String Ch})*'"'
                   
 OPERADOR = '==' | '!=' | '>' | '<' | '>=' | '<='
+=======
+CADEIA_CARACTERES = '"'({Caracteres})*'"'
+>>>>>>> b97d3b638ec7a6f885ab6d06b92b8739616a3a7d
 BOLEANO = 'verdadeiro' | 'falso'
 
 ! -------------------------------------------------
@@ -31,10 +35,10 @@ BOLEANO = 'verdadeiro' | 'falso'
 ! -------------------------------------------------
 <Tipo> ::= <TipoId>
          | 'vazio'
-<Tipo Id>::= 'boleano'
-           | 'inteiro'
-           | 'real'
-           | 'texto'
+<TipoId>::= 'boleano'
+          | 'inteiro'
+          | 'real'
+          | 'texto'
 
 <Valor> ::= <ValorConst>
           | IDENTIFICADOR
@@ -50,7 +54,7 @@ BOLEANO = 'verdadeiro' | 'falso'
 
 <ListaArg> ::= IDENTIFICADOR <ListaArg2>
 <ListaArg2> ::= ',' IDENTIFICADOR <ListaArg2>
-                      |
+              |
 
 ! -------------------------------------------------
 ! CONSTANTES
@@ -58,7 +62,11 @@ BOLEANO = 'verdadeiro' | 'falso'
 <DefConstante> ::= 'constantes' '{' <ListaConst> '}'                       
 <ListaConst> ::= <Constante> ';' <ListaConst2>                   
 <ListaConst2> ::= <ListaConst>
+<<<<<<< HEAD
                      |             
+=======
+                |             
+>>>>>>> b97d3b638ec7a6f885ab6d06b92b8739616a3a7d
 <Constante> ::= <TipoId> <Atribuicao> <ListaAtribuicao>             
 <ListaAtribuicao> ::= ',' <Atribuicao> 
                     |
@@ -83,29 +91,128 @@ BOLEANO = 'verdadeiro' | 'falso'
                | <DefEscreva> ';'
                | <DefLeia> ';'
                | <DefChamada>
-               !| <DefExpressao>
+               | <DefExpressao>
 
 ! -------------------------------------------------
 ! VARIAVEIS
 ! -------------------------------------------------
+<DefVariavel> ::= 'variaveis' '{' <ListaVar> '}'
 
+<ListaVar> ::= <DeclaracaoVar> <ListaVar>
+             |
+
+<DeclaracaoVar> ::= <TipoId> Identificador <DeclaracaoAtribuicaoMatriz>  
+                       
+<DeclaracaoAtribuicaoMatriz> ::= <DefinicaoMatriz>
+                               | <AtribuicaoMatriz>
+
+<DefinicaoMatriz> ::= '[' NUMERO ']' <DeclaracaoAtribuicaoMatriz>
+                        
+<AtribuicaoMatriz> ::= '=' <AtribuicaoMatriz2>                                 
+<AtribuicaoMatriz2> ::= <Valor> <AtribuicaoMatriz3>
+                      | '{' <Valor> <ListaValores> <AtribuicaoMatriz3>
+                      | <DefExpressao> <AtribuicaoMatriz3>
+                      | <AtribuicaoMatriz3>
+<AtribuicaoMatriz3> ::= ',' IDENTIFICADOR <FechamentoDeclaracao>
+                      |';' <ListaVar>
+<FechamentoDeclaracao> ::= <AtribuicaoMatriz>
+                         | <DefinicaoMatriz> <AtribuicaoMatriz>
+
+<ListaValores> ::= ',' <Valor> <ListaValores>
+                 | ';' <ListaValores2>
+<ListaValores2> ::= <Valor> <ListaValores>
+                  | '}'
+
+! -------------------------------------------------
+! ESTRUTURAS DE CONTROLE
+! -------------------------------------------------
+<DefSe> ::= 'se' '(' <Condicao> ')' 'entao' '{' <Declaracao> '}' <DefSenao>
+
+<DefSenao> ::= 'senao' '{' <Declaracao> '}'
+             |
+
+<DefEnquanto> ::= 'enquanto' '(' <Condicao> ')' '{' <Declaracao> '}'
+
+<Condicao> ::= <ExpressaoRelacional>
+            |  '!' <ExpressaoRelacional>
 
 ! -------------------------------------------------
 ! COMANDOS
 ! -------------------------------------------------
+<DefEscreva>  ::= 'escreva' '(' <EscrevaParam> ')'
+<EscrevaParam> ::= CADEIA_CARACTERES
+                 |  <ListaArg>
 
-
-! -------------------------------------------------
-! Control Structures
-! -------------------------------------------------
-
+<DefLeia>  ::= 'leia' '(' <ListaArg> ')'
+            
+<DefChamada> ::= IDENTIFICADOR '(' <DefChamada2>
+<DefChamada2> ::= <ListaArg> ')' ';'
+                  | ')' ';'
 
 ! -------------------------------------------------
 ! EXPRESSOES
 ! -------------------------------------------------
+<<<<<<< HEAD
 !<DefExpressao> ::= 
 
 <Condicao> ::= IDENTIFICADOR OPERADOR <Condicao2>   !Incompleto
              | NUMERO OPERADOR <Condicao2> 
              | '!' BOLEANO
 <Condicao2> ::= IDENTIFICADOR | NUMERO
+=======
+<DefExpressao> ::= '(' <DefExpressao> ')'
+                 |  <TipoExpressao>
+                 | '!' IDENTIFICADOR
+
+<TipoExpressao> ::= <ExpressaoAritmetica>
+                  | <ExpressaoRelacional>
+                  | '!' <ExpressaoRelacional>
+                  | <ExpressaoLogica>
+                  | '!' <ExpressaoLogica>
+
+! EXPRESSOES ARITMETICAS
+! -------------------------------------------------
+<ExpressaoAritmetica> ::= <Termo> <ExpressaoAritmetica2>
+<ExpressaoAritmetica2> ::= '+' <ExpressaoAritmetica>
+                         | '-' <ExpressaoAritmetica>
+                         |
+
+<Termo> ::= <Fator> <Termo2>
+<Termo2> ::=  '*' <Termo>
+           | '/' <Termo>
+           |
+
+<Fator> ::= NUMERO
+          | IDENTIFICADOR
+          | '(' <ExpressaoAritmetica> ')'
+
+! EXPRESSOES RELACIONAL
+! -------------------------------------------------
+<ExpressaoRelacional> ::= <ExpressaoAritmetica> <OpRelacional> <ExpressaoAritmetica>
+                        | '!' <ExpressaoAritmetica> <OpRelacional> <ExpressaoAritmetica>
+                        | '(' <ExpressaoRelacional> ')'
+<OpRelacional> ::= '=='
+                 | '!='
+                 | '<' 
+                 | '<='
+                 | '>' 
+                 | '>=' 
+
+! EXPRESSOES LOGICA
+! -------------------------------------------------
+<ExpressaoLogica> ::= <ExpressaoRelacional> <OpLogicoBinario> <ExpressaoRelacional> <ExpressaoLogica2>
+                    | '!' <ExpressaoRelacional> <OpLogicoBinario> <ExpressaoRelacional> <ExpressaoLogica2>
+                    | <BoleanoOuIdentificador> <OpLogicoBinario> <BoleanoOuIdentificador> <ExpressaoLogica2>
+                    | '(' <ExpressaoLogica> ')' <ExpressaoLogica2>
+<ExpressaoLogica2> ::= <ExpressaoLogica> <ExpressaoLogica2>
+                     | 
+<BoleanoOuIdentificador> ::= <Boleano>
+                           | '!' <Boleano>
+                           | IDENTIFICADOR
+                           | '!' IDENTIFICADOR
+<OpLogicoBinario> ::= '&&'
+                    | '||'
+                    
+<Boleano> ::= 'verdadeiro'
+            | 'falso'
+>>>>>>> b97d3b638ec7a6f885ab6d06b92b8739616a3a7d
