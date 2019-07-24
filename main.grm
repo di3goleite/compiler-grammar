@@ -98,9 +98,10 @@ CADEIA_CARACTERES = '"'({Caracteres})*'"'
                   | '{' <ListaInicializacaoVar> <Inicializacao2>
 <Inicializacao2> ::= '}'
         | ',' '}'
-<ListaInicializacaoVar> ::= <Inicializacao> ',' <ListaInicializacaoVar>
-                          |
-<Declarador> ::= IDENTIFICADOR '[' <Declarador3>
+<ListaInicializacaoVar> ::= <Inicializacao> <ListaInicializacaoVar2>
+<ListaInicializacaoVar2> ::= ',' <Inicializacao> <ListaInicializacaoVar2>
+                           |
+<Declarador> ::= IDENTIFICADOR <Declarador2>
 <Declarador2> ::= '[' <Declarador3>
                 |
 <Declarador3> ::= <ExprAtribuicao> ']' <Declarador2>
