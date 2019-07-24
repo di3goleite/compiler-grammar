@@ -11,7 +11,6 @@
 IDENTIFICADOR = {Letter}({AlphaNumeric}|[_])*
 NUMERO = '-'?{Number}+('.'{Number}+)?
 CADEIA_CARACTERES = '"'({Caracteres})*'"'
-VALORBOLEANO = 'verdadeiro' | 'falso'
 
 ! -------------------------------------------------
 ! PROGRAMA
@@ -20,7 +19,7 @@ VALORBOLEANO = 'verdadeiro' | 'falso'
 
 <DefGlobal> ::= <DefConstante> <DefPrincipal> <DefGlobal2>
 <DefGlobal2> ::= <DefMetodo> <DefGlobal2>
-                |
+               |
 
 ! -------------------------------------------------
 ! REGRAS GERAIS
@@ -36,15 +35,14 @@ VALORBOLEANO = 'verdadeiro' | 'falso'
           | IDENTIFICADOR
 <ValorConst> ::=  NUMERO
                  | CADEIA_CARACTERES
-                 | VALORBOLEANO
 
 <ListaParam> ::= <TipoId> IDENTIFICADOR <ListaParam2>
                |
 <ListaParam2> ::= ',' <TipoId> IDENTIFICADOR <ListaParam2>
                 |
 
-<ListaArg> ::= <Valor> <ListaArg2>
-<ListaArg2> ::= ',' <Valor> <ListaArg2>
+<ListaArg> ::= <Atribuicao> <ListaArg2>
+<ListaArg2> ::= ',' <Atribuicao> <ListaArg2>
               |
 
 ! -------------------------------------------------
@@ -54,147 +52,139 @@ VALORBOLEANO = 'verdadeiro' | 'falso'
 <ListaConst> ::= <Constante> ';' <ListaConst2>                   
 <ListaConst2> ::= <ListaConst>
                 |             
-<Constante> ::= <TipoId> <Atribuicao> <ListaAtribuicao>             
-<ListaAtribuicao> ::= ',' <Atribuicao> 
+<Constante> ::= <TipoId> <AtribuicaoConst> <ListaAtribuicaoConst>             
+<ListaAtribuicaoConst> ::= ',' <AtribuicaoConst> 
                     |
-<Atribuicao> ::= Identificador '=' <Valor>
+<AtribuicaoConst> ::= IDENTIFICADOR '=' <Valor>
 
 ! -------------------------------------------------
 ! PRINCIPAL
 ! -------------------------------------------------
-<DefPrincipal> ::= 'metodo' 'principal' '('  <ListaParam> ')' ':' <Tipo> '{' <ConteudoMetodo> '}'   !Falta retorno.
+<DefPrincipal> ::= 'metodo' 'principal' '('  <ListaParam> ')' ':' <Tipo> '{' <Declaracao> '}'
 
 ! -------------------------------------------------
 ! METODOS
 ! -------------------------------------------------
-<DefMetodo> ::= 'metodo' IDENTIFICADOR '(' <ListaParam> ')' ':' <Tipo> '{' <ConteudoMetodo> '}'  
-                       
-<ConteudoMetodo> ::= <Declaracao> 
+<DefMetodo> ::= 'metodo' IDENTIFICADOR '(' <ListaParam> ')' ':' <Tipo> '{' <Declaracao> '}'  
+
 ! -------------------------------------------------
 ! DECLARACOES
 ! -------------------------------------------------
 <Declaracao> ::= <DefVariavel> <Declaracao>
                | <DefSe> <Declaracao>
                | <DefEnquanto> <Declaracao>
-               | <DefEscreva> ';' <Declaracao>
-               | <DefLeia> ';' <Declaracao>
+               | <DefEscreva> <Declaracao>
+               | <DefLeia> <Declaracao>
                | <DefChamada> <Declaracao>
                | <DefExpressao> <Declaracao>
-               | Identificador <AtribuicaoVariavelMatrizVetor> <Declaracao>
-               | Identificador '++' ';' 
-               |Identificador '--' ';'
-               | <>
-               | 'Resultado' <Valor> ';' 
-               
-
+               | <DefResultado>
+               |
 
 ! -------------------------------------------------
 ! VARIAVEIS
 ! -------------------------------------------------
-<DefVariavel> ::= 'variaveis' '{' <ListaVariaveis> '}'
-
-<ListaVariaveis> ::= <DefinicaoVariavel> <ListaVariaveis>  | <> 
-
-<DefinicaoVariavel> ::= <TipoId> Identificador <AtribuicaoDefiniciaoMatrizVetor>  
-                       
-<AtribuicaoDefiniciaoMatrizVetor> ::= <AtribuicaoVariavelMatrizVetor> | <DefinicaoMatrizVetor> 
-
-<DefinicaoMatrizVetor> ::= '[' Numero ']' <FechamentoDefinicaoMatrizVetor>
-                        
-<FechamentoDefinicaoMatrizVetor>::= <DefinicaoMatrizVetor> | <AtribuicaoVariavelMatrizVetor>
-                        
-<AtribuicaoVariavelMatrizVetor> ::= '=' <FechamentoAtribuicaoVariavelMatrizVetor> | <FechamentoAtribuicaoVariavel> 
-                                 
-<FechamentoAtribuicaoVariavelMatrizVetor> ::= <Valor> <FechamentoAtribuicaoVariavel>
-                                                | '{' <Valor> <ListaValoresVetor>  <FechamentoAtribuicaoVariavel>
-                                                    | <DefExpressao> <FechamentoAtribuicaoVariavel>
-                                                        | <DefChamada> 
-                                                            | <FechamentoAtribuicaoVariavel>
-
-<FechamentoAtribuicaoVariavel> ::=  | ',' Identificador <FechamentoDeclaracao>
-                                        |';' <ListaVariaveis>
-
-<FechamentoDeclaracao> ::= <AtribuicaoVariavelMatrizVetor> | <DefinicaoMatrizVetor> <AtribuicaoVariavelMatrizVetor>
-
-<ListaValoresVetor> ::= ',' <Valor> <ListaValoresVetor> | ';' <Valor> <ListaValoresVetor>| ';' '}'                                               
-
+<DefVariavel> ::= 'variaveis' '{' <ListaVar> '}'
+<ListaVar> ::= <DeclaracaoVar> <ListaVar2>
+<ListaVar2> ::= <DeclaracaoVar> <ListaVar2>
+                    |
+<DeclaracaoVar> ::= <Tipo> <ListaDeclaracaoVar> ';'
+<ListaDeclaracaoVar> ::= <AtribuicaoVar> <ListaDeclaracaoVar2>
+<ListaDeclaracaoVar2> ::= ',' <AtribuicaoVar> <ListaDeclaracaoVar2>
+                        |
+<AtribuicaoVar> ::= <Declarador> <AtribuicaoVar2>
+<AtribuicaoVar2> ::= '=' <Inicializacao>
+                      |
+<Inicializacao> ::= <Atribuicao>
+                  | '{' <ListaInicializacaoVar> <Inicializacao2>
+<Inicializacao2> ::= '}'
+        | ',' '}'
+<ListaInicializacaoVar> ::= <Inicializacao> ',' <ListaInicializacaoVar>
+                          |
+<Declarador> ::= IDENTIFICADOR '[' <Declarador3>
+<Declarador2> ::= '[' <Declarador3>
+                |
+<Declarador3> ::= <ExprAtribuicao> ']' <Declarador2>
+                | ']' <Declarador2>
 
 ! -------------------------------------------------
 ! ESTRUTURAS DE CONTROLE
 ! -------------------------------------------------
-<DefSe> ::= 'se' '(' <Expressao> ')' 'entao' '{' <Declaracao> '}' <DefSenao> 
+<DefSe> ::= 'se' '(' <ExprRelacionalIgual> ')' 'entao' '{' <Declaracao> '}' <DefSenao> 
 
 <DefSenao> ::= 'senao' '{' <Declaracao> '}'
              |
 
-<DefEnquanto> ::= 'enquanto' '(' <Expressao> ')' '{' <Declaracao> '}'
-
-!<Condicao> ::= <ExpressaoRelacional>
- !           |  '!' <ExpressaoRelacional>
+<DefEnquanto> ::= 'enquanto' '(' <ExprRelacionalIgual> ')' '{' <Declaracao> '}'
 
 ! -------------------------------------------------
 ! COMANDOS
 ! -------------------------------------------------
-<DefEscreva>  ::= 'escreva' '(' <ListaArg> ')'
+<DefEscreva>  ::= 'escreva' '(' <ListaArg> ')' ';'
 
 
-<DefLeia>  ::= 'leia' '(' <ListaArg> ')'
+<DefLeia>  ::= 'leia' '(' <ListaArg> ')' ';'
             
 <DefChamada> ::= IDENTIFICADOR '(' <DefChamada2>
 <DefChamada2> ::= <ListaArg> ')' ';'
                   | ')' ';'
 
-! -------------------------------------------------
-! DEFINIÇÃO GERAL DA EXPRESSÃO
-! -------------------------------------------------
-
-<Expressao> ::= '(' <Expressao> ')'  
-                    |  <Expressao> <OperadorLogicoBinario> <Expressao>
-                        |   <DefExpressao>
-                            |   '!' <Expressao>    
-                                |   '!' <Termo>
-
-<DefExpressao> ::= <ExpressaoAritmetica> | <ExpressaoLogica> | <ExpressaoRelacional> 
-
+<DefResultado> ::= 'resultado' <Expressao> ';'
 
 ! -------------------------------------------------
-! DEFINIÇÃO GERAL DA EXPRESSÃO RELACIONAL
-! -------------------------------------------------                    
+! EXPRESSOES
+! -------------------------------------------------                 
+<DefExpressao> ::= ';'
+             	 | <Expressao> ';'
 
-<ExpressaoRelacional> ::= <ExpressaoAritmetica> <OperadorRelacional> <Termo> 
-                            | <ExpressaoAritmetica> <OperadorRelacional> <ExpressaoAritmetica>
-                                |<Termo> <OperadorRelacional> <Termo>
-                                    |<Termo> <OperadorRelacional> <ExpressaoAritmetica>
-                                    
-                           
-! -------------------------------------------------
-! DEFINIÇÃO GERAL DA EXPRESSÃO LÓGICA
-! -------------------------------------------------                        
+<Expressao> ::= <Atribuicao> <Expressao2>
+<Expressao2> ::= ',' <Atribuicao> <Expressao2>
+               |
 
-<ExpressaoLogica> ::= <Termo> <OperadorLogicoBinario> <Termo>   
-                            
+<Atribuicao> ::= <ExprAtribuicao> <Atribuicao2>
+<Atribuicao2> ::= '=' <ExprAtribuicao> <Atribuicao2>
+                |
+<ExprAtribuicao> ::= <ExprLogicaOu>
+<ExprLogicaOu> ::= <ExprLogicaE> <ExprLogicaOu2>
+<ExprLogicaOu2> ::= '||' <ExprLogicaE> <ExprLogicaOu2>
+                  |
+<ExprLogicaE> ::= <ExprRelacionalIgual> <ExprLogicaE2>
+<ExprLogicaE2> ::= '&&' <ExprRelacionalIgual> <ExprLogicaE2>
+                 |
+<ExprRelacionalIgual> ::= <ExprRelacionalOutras> <ExprRelacionalIgual2>
+<ExprRelacionalIgual2> ::= <OpRelacionalIgual> <ExprRelacionalOutras> <ExprRelacionalIgual2>
+                         |
+<ExprRelacionalOutras> ::= <ExprAritmeticaAd> <ExprRelacionalOutras2>
+<ExprRelacionalOutras2> ::= <OpRelacionalOutros> <ExprAritmeticaAd> <ExprRelacionalOutras2>
+                          |
+<ExprAritmeticaAd> ::= <ExprAritmeticaMult> <ExprAritmeticaAd2>
+<ExprAritmeticaAd2> ::= <OpAritmeticoAd> <ExprAritmeticaMult> <ExprAritmeticaAd2>
+                      |
+<ExprAritmeticaMult> ::= <ExprUnaria> <ExprAritmeticaMult2>
+<ExprAritmeticaMult2> ::= <OpAritmeticoMult> <ExprUnaria> <ExprAritmeticaMult2>
+                        |
+<ExprUnaria> ::= <OpUnario> <ExprUnaria>
+              | <ExprPosfixa>
+<ExprPosfixa> ::= <Fator> <ExprPosfixa2>
+<ExprPosfixa2> ::= <OpPosfixo> <ExprPosfixa2>
+                 |
 
-            
-! -------------------------------------------------
-! DEFINIÇÃO GERAL DA EXPRESSÃO ARITMÉTICA
-! -------------------------------------------------
+<OpRelacionalIgual> ::= '==' | '!='
 
-<ExpressaoAritmetica> ::= <Termo> <OperadorAritimetico> <Termo> <FechamentoExpressaoAritimetica> | '(' <ExpressaoAritmetica> ')' <FechamentoExpressaoAritimetica>
+<OpRelacionalOutros> ::= '<' | '>' | '<=' | '>='
 
-<FechamentoExpressaoAritimetica> ::= <OperadorAritimetico> <Termo> <FechamentoExpressaoAritimetica> | <>
+<OpAritmeticoAd> ::= '+' | '-'
 
+<OpAritmeticoMult> ::= '*' | '/'
 
-<Termo> ::= NUMERO
-           |IDENTIFICADOR
+<OpUnario> ::= '++' | '--' | '!'
 
-<OperadorAritimetico> ::= '+'|'-'|'*'|'/'
+<OpPosfixo> ::= '++' | '--' | '[' <Expressao> ']' | '(' <OpPosfixo2> | '.' IDENTIFICADOR
+<OpPosfixo2> ::= ')'
+               | <ListaArg> ')'
 
-<OperadorLogicoBinario> ::= '&&'|'||'
-
-
-<OperadorRelacional> ::= '=='
-                        |'<' 
-                        |'<='
-                        |'>' 
-                        |'>='
-                        |'!=' 
+<Fator> ::= IDENTIFICADOR
+          | NUMERO
+          | CADEIA_CARACTERES
+          | 'true'
+          | 'false'
+          | '(' <Expressao> ')'

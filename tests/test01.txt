@@ -9,7 +9,7 @@ programa {
         inteiro const1 = 25;
     }
     
-	metodo principal ():vazio{
+    metodo principal ():vazio{
         
         variaveis {
             inteiro a = 1;
@@ -20,7 +20,7 @@ programa {
             real c = 1.50, d = 1;
             boleano e = verdadeiro, f = falso;
             texto g = "casa", h = "palavra";
-            inteiro vet[5];
+            inteiro vet[5] = {1, 2, 3, 4, 5};
             real mat[4][5];
             inteiro var1;
         }
@@ -37,10 +37,10 @@ programa {
             d++;
         }
         
-        se (a==b && a>c) entao {
+        se (a==b) entao {
             mostrarMensagem();
         }
-	}
+    }
     
     metodo calcularArea(inteiro base, inteiro altura):inteiro{
         variaveis {
