@@ -87,7 +87,7 @@ CADEIA_CARACTERES = '"'({Caracteres})*'"'
 <ListaVar> ::= <DeclaracaoVar> <ListaVar2>
 <ListaVar2> ::= <DeclaracaoVar> <ListaVar2>
                     |
-<DeclaracaoVar> ::= <Tipo> <ListaDeclaracaoVar> ';'
+<DeclaracaoVar> ::= <TipoId> <ListaDeclaracaoVar> ';'
 <ListaDeclaracaoVar> ::= <AtribuicaoVar> <ListaDeclaracaoVar2>
 <ListaDeclaracaoVar2> ::= ',' <AtribuicaoVar> <ListaDeclaracaoVar2>
                         |
