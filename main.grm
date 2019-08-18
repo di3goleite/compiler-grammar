@@ -55,7 +55,7 @@ CADEIA_CARACTERES = '"'({Caracteres})*'"'
 <Constante> ::= <TipoId> <AtribuicaoConst> <ListaAtribuicaoConst>             
 <ListaAtribuicaoConst> ::= ',' <AtribuicaoConst> 
                     |
-<AtribuicaoConst> ::= IDENTIFICADOR '=' <Valor>
+<AtribuicaoConst> ::= IDENTIFICADOR '=' <ValorConst>
 
 ! -------------------------------------------------
 ! PRINCIPAL
@@ -97,7 +97,7 @@ CADEIA_CARACTERES = '"'({Caracteres})*'"'
 <Inicializacao> ::= <Atribuicao>
                   | '{' <ListaInicializacaoVar> <Inicializacao2>
 <Inicializacao2> ::= '}'
-                   | ',' '}
+                   | ',' '}'
 <ListaInicializacaoVar> ::= <Inicializacao> <ListaInicializacaoVar2>
 <ListaInicializacaoVar2> ::= ',' <Inicializacao> <ListaInicializacaoVar2>
                            |
