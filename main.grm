@@ -33,8 +33,11 @@ CADEIA_CARACTERES = '"'({Caracteres})*'"'
 
 <Valor> ::= <ValorConst>
           | IDENTIFICADOR
-<ValorConst> ::=  NUMERO
-                 | CADEIA_CARACTERES
+          | '(' <Expressao> ')'
+<ValorConst> ::= NUMERO
+               | CADEIA_CARACTERES
+               | 'verdadeiro'
+               | 'falso'
 
 <ListaParam> ::= <TipoId> IDENTIFICADOR <ListaParam2>
                |
@@ -75,7 +78,6 @@ CADEIA_CARACTERES = '"'({Caracteres})*'"'
                | <DefEnquanto> <Declaracao>
                | <DefEscreva> <Declaracao>
                | <DefLeia> <Declaracao>
-               | <DefChamada> <Declaracao>
                | <DefExpressao> <Declaracao>
                | <DefResultado>
                |
@@ -122,12 +124,7 @@ CADEIA_CARACTERES = '"'({Caracteres})*'"'
 ! -------------------------------------------------
 <DefEscreva>  ::= 'escreva' '(' <ListaArg> ')' ';'
 
-
 <DefLeia>  ::= 'leia' '(' <ListaArg> ')' ';'
-            
-<DefChamada> ::= IDENTIFICADOR '(' <DefChamada2>
-<DefChamada2> ::= <ListaArg> ')' ';'
-                  | ')' ';'
 
 <DefResultado> ::= 'resultado' <Expressao> ';'
 
@@ -165,7 +162,7 @@ CADEIA_CARACTERES = '"'({Caracteres})*'"'
                         |
 <ExprUnaria> ::= <OpUnario> <ExprUnaria>
               | <ExprPosfixa>
-<ExprPosfixa> ::= <Fator> <ExprPosfixa2>
+<ExprPosfixa> ::= <Valor> <ExprPosfixa2>
 <ExprPosfixa2> ::= <OpPosfixo> <ExprPosfixa2>
                  |
 
@@ -182,10 +179,3 @@ CADEIA_CARACTERES = '"'({Caracteres})*'"'
 <OpPosfixo> ::= '++' | '--' | '[' <Expressao> ']' | '(' <OpPosfixo2> | '.' IDENTIFICADOR
 <OpPosfixo2> ::= ')'
                | <ListaArg> ')'
-
-<Fator> ::= IDENTIFICADOR
-          | NUMERO
-          | CADEIA_CARACTERES
-          | 'verdadeiro'
-          | 'falso'
-          | '(' <Expressao> ')'
